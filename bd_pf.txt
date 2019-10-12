@@ -1,0 +1,83 @@
+--
+-- Base de datos: `bd_Pf`
+-- 
+CREATE DATABASE IF NOT EXISTS `bd_Pf` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `bd_Pf`;
+ --
+-- Creacion de Tablas
+-- 
+
+CREATE TABLE `facturaCabecera` (
+  `idNumero` int auto_increment NOT NULL,
+  `serieFactura` varchar(4) NOT NULL,
+  `numeroFactura` varchar(8) NOT NULL,
+  `idCliente` int NOT NULL,
+  `fechaFactura` datetime NOT NULL,
+  `igv` decimal(9,2) NOT NULL,
+  `importeFactura` decimal(12,2) NOT NULL,
+  `idUsuario` int NOT NULL,
+  `fechaCreacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` int NOT NULL,
+  PRIMARY KEY (`idNumero`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+
+CREATE TABLE `facturaDetalle` (
+  `idNumero` int NOT NULL,
+  `item` int NOT NULL,
+  `idArticulo` int NOT NULL,
+  `cantidad` decimal(10,2) NOT NULL,
+  `precio` decimal (12,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+CREATE TABLE `articulo` (
+  `idArticulo` int auto_increment NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `idUsuario` int NOT NULL,
+  `fechaCreacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` int NOT NULL,
+  PRIMARY KEY (`idArticulo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+CREATE TABLE `cliente` (
+  `idCliente` int auto_increment NOT NULL,
+  `nombreCliente` varchar(255) NOT NULL,
+  `ruc` varchar(11) NOT NULL,
+  `fechaCreacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` int NOT NULL,
+  PRIMARY KEY (`idCliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+CREATE TABLE `usuario` (
+  `idUsuario` int auto_increment NOT NULL,
+  `nomUsuario` varchar(255) NOT NULL,
+  `nombres` varchar(255) NOT NULL,
+  `aPaterno` varchar(255) NOT NULL,
+  `aMaterno` varchar(255) NOT NULL,
+  `clave` BLOB NOT NULL,
+  `tipo` int NOT NULL,
+  PRIMARY KEY (`idUsuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+CREATE TABLE `encuesta` (
+  `idEncuesta` int auto_increment NOT NULL,
+  `calificacion` int NOT NULL,
+  `observacion` varchar(255),
+  PRIMARY KEY (`idEncuesta`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+CREATE TABLE `auditoriaLogueo` (
+  `idAuditoria` int auto_increment NOT NULL,
+  `nomUsuario` varchar(255) NOT NULL,
+  `claveLogueo` BLOB NOt NULL,
+  `fechaRegistro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idAuditoria`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ 
+CREATE TABLE `usuariocliente` (
+  `idUsuario` INT NOT NULL,
+  `idCliente` INT NOT NULL,
+  `estado` INT NOT NULL,
+  UNIQUE `usuario_cliente` (`idUsuario`,`idCliente`)
+);
